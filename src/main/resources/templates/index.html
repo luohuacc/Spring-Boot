@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org"
+          th:replace="public/layout">
+    <div th:fragment="content">
+        <table class="table table-bordered table-hover">
+            <caption>部门工资表</caption>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>岗位</th>
+                    <th>入职时间</th>
+                    <th>工资</th>
+                    <th>奖金</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="emp,stat:${emps}">
+                    <td>[[${stat.index + 1}]]</td>
+                    <td th:text="${emp.empno}"></td>
+                    <td th:text="${emp.ename}"></td>
+                    <td th:switch="${emp.deptno}">
+                        <span th:case="20">研发部</span>
+                        <span th:case="30">销售部</span>
+                        <span th:case="10">会计部</span>
+                        <span th:case="*">其他部门</span>
+                    </td>
+                    <td th:text="${emp.job}"></td>
+                    <td>[[${#dates.format(emp.hiredate , 'yyyy-MM-dd')}]]</td>
+                    <td th:style="${emp.sal > 1500}?'color:red;font-weight:bold;'">[[${#numbers.formatCurrency(emp.sal)}]]</td>
+                    <td th:text="${emp.comm!=null}?${#numbers.formatCurrency(emp.comm)}:'N/A'"></td>
+                    <td>
+                        <a href="javascript:void(0)" class="detail" th:attr="data-empno=${emp.empno}">详情</a> |
+                        <a href="javascript:void(0)" class="update" th:attr="data-empno=${emp.empno}">修改</a> |
+                        <!--<a th:href="@{/emp/delete?(empno=${emp.empno})}">删除</a>-->
+                        <a href="javascript:void(0)" class="delete" th:attr="data-empno=${emp.empno}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
+<script type="text/javascript">
+    $(function(){
+
+        //点击详情
+        $(".detail").click(function(e){
+            e.preventDefault();
+            var empno = $(this).attr("data-empno");
+            $(location).attr('href','/emp/'+empno);
+        })
+
+        //删除
+        $(".delete").click(function(e){
+            var r = confirm("确认删除吗？");
+            if(r == false){
+                return false;
+            }
+            var _this = $(this);
+            e.preventDefault();
+            var empno = $(this).attr("data-empno");
+            var url = "/emp/delete/"+empno;
+            $.ajax({
+                url: url,
+                type:"GET",
+                success:function(data) {
+                   _this.parent().parent().remove();
+                }
+            })
+        });
+
+        //修改
+        $(".update").click(function(e){
+            e.preventDefault();
+            var empno = $(this).attr("data-empno");
+            $(location).attr('href','/emp/update/'+empno);
+        })
+    })
+</script>

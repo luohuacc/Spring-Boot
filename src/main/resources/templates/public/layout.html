@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot</title>
+    <link href="/common/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <script src="/jquery/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<!--header-->
+<nav class="navbar navbar-default" role="navigation" style="background: #101010;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">罗华博客</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">首页列表</a></li>
+                <li><a href="/emp/create">增加员工</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--header-->
+<div  class="container">
+    <div class="main" th:include="::content" style="margin-top:50px;"></div>
+</div>
+
+</body>
+</html>

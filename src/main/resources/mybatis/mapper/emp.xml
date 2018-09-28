@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.helpme.jpa.mapper.EmpMapper">
+    <select id="findById" parameterType="Integer" resultType="com.helpme.jpa.entity.Emp">
+        select * from emp where empno = #{value}
+    </select>
+
+    <!--查询的每一条记录包装成功map,key就是字段名，value就是字段值-->
+    <select id="findDepts"  parameterType="java.util.Map" resultType="java.util.Map">
+        select * from emp e, dept d where e.deptno = d.deptno and dname = #{pdname} and sal > #{psal}
+    </select>
+
+
+    <select id="all" resultType="com.helpme.jpa.entity.Emp">
+        select * from emp;
+    </select>
+
+
+    <insert id="create" parameterType="com.helpme.jpa.entity.Emp">
+        INSERT INTO `scott`.`emp`( `ename`, `job`, `mgr`, `hiredate`, `sal`, `comm`, `deptno`)
+        VALUES ( #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno});
+
+        <selectKey keyProperty="empno" keyColumn="empno" resultType="Integer" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.helpme.jpa.entity.Emp">
+        UPDATE `scott`.`emp` SET `ename` = #{ename}, `job` = #{job}, `mgr` = #{mgr}, `hiredate` = #{hiredate}, `sal` = #{sal}, `comm` = #{comm}, `deptno` = #{deptno} WHERE `empno` = #{empno};
+
+    </update>
+
+    <delete id="delete" parameterType="com.helpme.jpa.entity.Emp">
+        DELETE from  emp where empno = #{value}
+    </delete>
+
+</mapper>

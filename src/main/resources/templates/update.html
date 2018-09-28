@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="public/layout">
+<div th:fragment="content">
+    <form class="form-horizontal" action="/emp/doUpdate" method="post">
+
+
+
+        <div class="form-group">
+            <label  for="ename" class="col-sm-2 control-label">员工姓名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="请输入员工姓名" name="ename" id="ename" th:value="${emp.ename}">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="deptno" class="col-sm-2 control-label">部门</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="deptno" id="deptno">
+                    <option>请选择</option>
+                    <option value="10" th:selected="${emp.deptno == 10}" ? selected>会计部</option>
+                    <option value="20" th:selected="${emp.deptno == 20}" ? selected>研发部</option>
+                    <option value="30" th:selected="${emp.deptno == 30}" ? selected>销售部</option>
+                    <option value="*" th:selected="${emp.deptno == '*'}" ? selected>其它部门</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="job" class="col-sm-2 control-label">岗位</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="job" id="job">
+                    <option>请选择</option>
+                    <option value="MANAGER" th:selected="${emp.job == 'MANAGER'}" ? selected>管理者</option>
+                    <option value="CTO" th:selected="${emp.job == 'CTO'}" ? selected>CTO</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="hiredate" class="col-sm-2 control-label">入职时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="hiredate" placeholder="格式：2018-09-27" id="hiredate" th:value="${#dates.format(emp.hiredate , 'yyyy-MM-dd')}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sal" class="col-sm-2 control-label">工资</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="sal" placeholder="请输入工资" name="sal" th:value="${emp.sal}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="empno" th:value="${emp.empno}">
+                <button type="submit" class="btn btn-default">保存</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</html>
